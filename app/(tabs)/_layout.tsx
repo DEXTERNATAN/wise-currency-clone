@@ -1,4 +1,9 @@
 import { Tabs } from 'expo-router';
+import { Text } from 'react-native';
+
+function TabIcon(emoji: string) {
+  return <Text style={{ fontSize: 18 }}>{emoji}</Text>;
+}
 
 export default function TabsLayout() {
   return (
@@ -12,25 +17,25 @@ export default function TabsLayout() {
           borderTopWidth: 1,
           borderTopColor: '#f3f4f6',
         },
+        tabBarLabelStyle: { fontSize: 11 },
       }}
     >
       <Tabs.Screen
         name="index"
-        options={{ title: 'Convert', tabBarIcon: ({ color }) => TabIcon('💱', color) }}
+        options={{ title: 'Converter', tabBarIcon: () => TabIcon('💱') }}
       />
       <Tabs.Screen
         name="favorites"
-        options={{ title: 'Favorites', tabBarIcon: ({ color }) => TabIcon('⭐', color) }}
+        options={{ title: 'Favoritos', tabBarIcon: () => TabIcon('⭐') }}
       />
       <Tabs.Screen
         name="history"
-        options={{ title: 'History', tabBarIcon: ({ color }) => TabIcon('📈', color) }}
+        options={{ title: 'Histórico', tabBarIcon: () => TabIcon('📈') }}
+      />
+      <Tabs.Screen
+        name="multi"
+        options={{ title: 'Multi', tabBarIcon: () => TabIcon('🔢') }}
       />
     </Tabs>
   );
-}
-
-function TabIcon(emoji: string, _color: string) {
-  const { Text } = require('react-native');
-  return <Text style={{ fontSize: 18 }}>{emoji}</Text>;
 }
