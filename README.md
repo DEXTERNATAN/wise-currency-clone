@@ -1,68 +1,68 @@
 # 💱 Wise Currency Clone
 
-Currency converter app inspired by [Wise](https://wise.com) — real-time mid-market rates, exchange history, favorites, and cost simulation.
+Conversor de moedas inspirado no [Wise](https://wise.com) — taxas mid-market em tempo real, histórico de câmbio, favoritos e simulação de custos.
 
-Built with **Expo (React Native)** + **Firebase** backend.
+Construído com **Expo (React Native)** + backend **Firebase**.
 
 ---
 
-## ✨ Features
+## ✨ Funcionalidades
 
 ### MVP
-- [x] Real-time currency conversion
-- [x] Currency list with search + flags
-- [x] Quick swap (origin ↔ destination)
-- [x] Local cache (AsyncStorage)
+- [x] Conversão de moedas em tempo real
+- [x] Lista de moedas com busca + bandeiras
+- [x] Inversão rápida (origem ↔ destino)
+- [x] Cache local (AsyncStorage)
 
-### Intermediate
-- [ ] Favorite pairs (USD→BRL)
-- [ ] Exchange rate history chart (1D/7D/1M/1Y)
-- [ ] Background auto-refresh
+### Intermediário
+- [ ] Pares favoritos (USD→BRL)
+- [ ] Gráfico de histórico de câmbio (1D/7D/1M/1Y)
+- [ ] Atualização automática em background
 
-### Advanced
-- [ ] Provider cost comparison
-- [ ] Exchange rate alerts
-- [ ] Multi-currency simultaneous view
-- [ ] Offline-first support
-
----
-
-## 🏗️ Architecture
-
-```
-[Expo App]
-    ↓
-[Firebase Functions]   ← proxy + cache layer
-    ↓
-[Exchange Rate API]    ← external data source
-    ↓
-[Firestore Cache]      ← TTL 5~15 min
-```
-
-**Key decision:** app never calls external API directly — Firebase Functions acts as proxy, reducing cost and improving performance.
+### Avançado
+- [ ] Comparação de custos entre provedores
+- [ ] Alertas de câmbio
+- [ ] Visualização multi-moeda simultânea
+- [ ] Suporte offline completo
 
 ---
 
-## 🗂️ Project Structure
+## 🏗️ Arquitetura
+
+```
+[App Expo]
+    ↓
+[Firebase Functions]   ← camada de proxy + cache
+    ↓
+[API de Câmbio]        ← fonte de dados externa
+    ↓
+[Cache Firestore]      ← TTL 5~15 min
+```
+
+**Decisão chave:** o app nunca chama a API externa diretamente — Firebase Functions age como proxy, reduzindo custo e melhorando performance.
+
+---
+
+## 🗂️ Estrutura do Projeto
 
 ```
 src/
- ├── components/       # shared UI components
+ ├── components/       # componentes de UI reutilizáveis
  ├── screens/
- │    ├── Home/        # main converter screen
- │    ├── Favorites/   # saved pairs
- │    └── History/     # rate history + chart
+ │    ├── Home/        # tela principal do conversor
+ │    ├── Favorites/   # pares salvos
+ │    └── History/     # histórico + gráfico
  ├── services/
- │    ├── api.ts       # exchange rate fetching
+ │    ├── api.ts       # busca de cotações
  │    └── firebase.ts  # Firestore + Functions
- ├── hooks/            # custom React hooks
- ├── store/            # Zustand state management
- └── utils/            # formatters, constants
+ ├── hooks/            # hooks React customizados
+ ├── store/            # gerenciamento de estado com Zustand
+ └── utils/            # formatadores, constantes
 ```
 
 ---
 
-## 🔥 Data Models (Firestore)
+## 🔥 Modelos de Dados (Firestore)
 
 ### `exchange_rates`
 ```json
@@ -93,29 +93,29 @@ src/
 
 ---
 
-## 🛠️ Tech Stack
+## 🛠️ Stack Tecnológica
 
-| Layer | Tech |
-|-------|------|
+| Camada | Tecnologia |
+|--------|-----------|
 | Frontend | Expo (React Native) + TypeScript |
-| State | Zustand |
-| Navigation | Expo Router |
-| Charts | Victory Native |
+| Estado | Zustand |
+| Navegação | Expo Router |
+| Gráficos | Victory Native |
 | Backend | Firebase Functions (Node.js) |
-| Database | Cloud Firestore |
-| Auth | Firebase Auth (optional) |
+| Banco de Dados | Cloud Firestore |
+| Autenticação | Firebase Auth (opcional) |
 | API | exchangerate-api.com |
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Como Começar
 
-### Prerequisites
+### Pré-requisitos
 - Node.js 18+
 - Expo CLI (`npm install -g expo-cli`)
-- Firebase project configured
+- Projeto Firebase configurado
 
-### Install
+### Instalação
 
 ```bash
 git clone https://github.com/DEXTERNATAN/wise-currency-clone
@@ -123,68 +123,68 @@ cd wise-currency-clone
 npm install
 ```
 
-### Run
+### Executar
 
 ```bash
-npm run ios      # iOS simulator
-npm run android  # Android emulator
-npm run web      # Web browser
+npm run ios      # Simulador iOS
+npm run android  # Emulador Android
+npm run web      # Navegador web
 ```
 
-### Environment Variables
+### Variáveis de Ambiente
 
-Copy `.env.example` to `.env.local` and fill in:
+Copie `.env.example` para `.env.local` e preencha:
 
 ```env
 EXPO_PUBLIC_FIREBASE_API_KEY=
 EXPO_PUBLIC_FIREBASE_PROJECT_ID=
-EXPO_PUBLIC_EXCHANGE_API_KEY=  # only on Firebase Functions
+EXPO_PUBLIC_EXCHANGE_API_KEY=  # somente nas Firebase Functions
 ```
 
 ---
 
-## 🔐 Security
+## 🔐 Segurança
 
-- API keys stored only in Firebase Functions (never in app bundle)
-- Firestore rules: public read, no client writes on rates
-- Firebase Auth for user-specific data (favorites, alerts)
+- Chaves de API armazenadas apenas nas Firebase Functions (nunca no bundle do app)
+- Regras Firestore: leitura pública, sem escrita do cliente nas cotações
+- Firebase Auth para dados do usuário (favoritos, alertas)
 
 ---
 
-## 🧪 Testing
+## 🧪 Testes
 
 ```bash
-npm test            # unit tests
-npm run test:e2e    # E2E flows
+npm test            # testes unitários
+npm run test:e2e    # fluxos E2E
 ```
 
 ---
 
 ## 📊 Roadmap
 
-| Week | Goal |
-|------|------|
-| 1 | UI + basic local conversion |
-| 2 | Firebase integration + cache |
-| 3 | Favorites + history |
-| 4 | Charts + polish + monetization |
+| Semana | Objetivo |
+|--------|----------|
+| 1 | UI + conversão local básica |
+| 2 | Integração Firebase + cache |
+| 3 | Favoritos + histórico |
+| 4 | Gráficos + polish + monetização |
 
 ---
 
-## 💰 Monetization Options
+## 💰 Opções de Monetização
 
-1. **Ads** — AdMob banner (non-intrusive)
-2. **Premium** — no ads + unlimited alerts
-3. **Affiliate** — "Send money with Wise" CTA
-
----
-
-## 🤝 Contributing
-
-PRs welcome. Open an issue first for large changes.
+1. **Anúncios** — banner AdMob (discreto)
+2. **Premium** — sem anúncios + alertas ilimitados
+3. **Afiliado** — CTA "Enviar dinheiro pelo Wise"
 
 ---
 
-## 📄 License
+## 🤝 Contribuindo
+
+PRs são bem-vindos. Abra uma issue primeiro para mudanças grandes.
+
+---
+
+## 📄 Licença
 
 MIT
