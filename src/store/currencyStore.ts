@@ -1,8 +1,15 @@
 import { create } from 'zustand';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getRates, RatesPayload } from '@/services/api';
+import { getDefaultCurrencyPair } from '@/utils/detectCurrency';
 
 const FAVORITES_KEY = 'favorites_v1';
+const PREFS_KEY = 'currency_prefs_v1';
+
+interface SavedPrefs {
+  fromCurrency: string;
+  toCurrency: string;
+}
 
 interface CurrencyState {
   // Converter
@@ -30,6 +37,7 @@ interface CurrencyState {
   fetchRates: () => Promise<void>;
   toggleFavorite: (pair: string) => void;
   loadFavorites: () => Promise<void>;
+  initPrefs: () => Promise<void>;
 }
 
 async function persistFavorites(favorites: string[]): Promise<void> {
@@ -38,6 +46,13 @@ async function persistFavorites(favorites: string[]): Promise<void> {
   } catch {
     // non-critical
   }
+}
+
+async function persistPrefs(from: string, to: string): Promise<void> {
+  try {
+    const prefs: SavedPrefs = { fromCurrency: from, toCurrency: to };
+    await AsyncStorage.setItem(PREFS_KEY, JSON.stringify(prefs));
+  } catch {}
 }
 
 export const useCurrencyStore = create<CurrencyState>((set, get) => ({
@@ -57,9 +72,15 @@ export const useCurrencyStore = create<CurrencyState>((set, get) => ({
 
   setAmount: (amount) => set({ amount }),
 
-  setFromCurrency: (code) => set({ fromCurrency: code }),
+  setFromCurrency: (code) => {
+    set({ fromCurrency: code });
+    persistPrefs(code, get().toCurrency);
+  },
 
-  setToCurrency: (code) => set({ toCurrency: code }),
+  setToCurrency: (code) => {
+    set({ toCurrency: code });
+    persistPrefs(get().fromCurrency, code);
+  },
 
   swapCurrencies: () => {
     const { fromCurrency, toCurrency } = get();
@@ -107,6 +128,28 @@ export const useCurrencyStore = create<CurrencyState>((set, get) => ({
       }
     } catch {
       set({ favoritesLoaded: true });
+    }
+  },
+
+  /**
+   * Inicializa preferências de moeda:
+   * - Se já existe prefs salvo → restaura última escolha do usuário
+   * - Se primeira abertura → detecta moeda local automaticamente
+   */
+  initPrefs: async () => {
+    try {
+      const raw = await AsyncStorage.getItem(PREFS_KEY);
+      if (raw) {
+        const prefs = JSON.parse(raw) as SavedPrefs;
+        set({ fromCurrency: prefs.fromCurrency, toCurrency: prefs.toCurrency });
+      } else {
+        // Primeira abertura: detectar moeda local
+        const { from, to } = getDefaultCurrencyPair();
+        set({ fromCurrency: from, toCurrency: to });
+        await persistPrefs(from, to);
+      }
+    } catch {
+      // fallback silencioso: mantém USD→BRL
     }
   },
 }));

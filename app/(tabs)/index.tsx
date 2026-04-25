@@ -31,6 +31,7 @@ export default function HomeScreen() {
     swapCurrencies,
     fetchRates,
     loadFavorites,
+    initPrefs,
     toggleFavorite,
     favorites,
   } = useCurrencyStore();
@@ -54,8 +55,8 @@ export default function HomeScreen() {
   );
 
   useEffect(() => {
+    initPrefs().then(() => fetchRates());
     loadFavorites();
-    fetchRates();
   }, []);
 
   const handleRefresh = useCallback(async () => {
