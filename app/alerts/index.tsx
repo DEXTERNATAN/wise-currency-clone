@@ -71,7 +71,7 @@ export default function AlertsScreen() {
           </Text>
           <Switch
             value={item.active && !triggered}
-            onValueChange={() => !triggered && toggleAlert(item.id)}
+            onValueChange={() => { if (!triggered) toggleAlert(item.id); }}
             trackColor={{ false: '#e5e7eb', true: '#bfdbfe' }}
             thumbColor={item.active ? '#37517e' : '#9ca3af'}
           />
