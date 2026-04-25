@@ -6,6 +6,41 @@ Construído com **Expo (React Native)** + backend **Firebase**.
 
 ---
 
+## 🎯 Finalidade do App
+
+App conversor de moedas inspirado no Wise Currency Converter.
+
+**Finalidade principal:** dar ao usuário informações de câmbio em tempo real para tomar decisões financeiras — seja para viajar, enviar dinheiro ao exterior, acompanhar investimentos ou comparar custos de transferência.
+
+### O que o app faz
+
+| Funcionalidade | Para quê |
+|---|---|
+| Conversão em tempo real | Saber quanto vale X moeda agora |
+| Histórico de câmbio (gráfico) | Ver se a taxa está boa ou ruim vs passado |
+| Favoritos | Acesso rápido aos pares mais usados |
+| Comparação de provedores | Descobrir qual banco/serviço cobra menos pra enviar dinheiro |
+| Multi-moeda simultânea | Ver conversão de 1 valor para várias moedas de uma vez |
+| Alertas de câmbio | Ser avisado quando a taxa atingir um valor desejado |
+| Calculadora reversa | Saber quanto enviar pra destinatário receber valor exato |
+
+### Público-alvo
+
+- Brasileiros que enviam dinheiro ao exterior (familiares, freelancers, estudo)
+- Viajantes internacionais
+- Investidores em ativos dolarizados
+- Quem compra em sites estrangeiros
+
+### Potencial de monetização
+
+- Afiliado Wise — CTA "Enviar com Wise"
+- AdMob banner
+- Premium sem anúncios + alertas ilimitados
+
+> É basicamente uma ferramenta de **educação e decisão financeira** — o usuário não movimenta dinheiro pelo app, mas sabe exatamente quando e como fazer isso de forma mais barata.
+
+---
+
 ## ✨ Funcionalidades
 
 ### MVP
